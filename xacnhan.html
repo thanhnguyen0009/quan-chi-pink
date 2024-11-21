@@ -62,36 +62,38 @@
     
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzOjA-XdurCx2Jub39YCD2pYQgBjumJIcMfEAK2k-5aLhyAvgT66L2ckCwB-0SMYpM/exec';
-        const form = document.forms['quan-chi'];
-    
-        form.addEventListener('submit', e => {
-        e.preventDefault();
-        alert('CẢM ƠN BẠN ĐÃ PHẢN HỒI! Dữ liệu gửi về sẽ mất khoảng một vài giây, nhấn "OK" và đợi trang tự tải lại nhé <3'); // Hiển thị thông báo ngay lập tức khi nhấn submit
-        
-        // Gửi dữ liệu form đi
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: new FormData(form)
-        })
-        .then(response => {
-            if (response.ok) {
-                // Nếu dữ liệu được gửi thành công, tải lại trang
-                setTimeout(() => {
-                    window.location.reload(); // Tải lại trang sau 0.5 giây
-                }, 100); // 0.5 giây
-            } else {
-                // Nếu gặp lỗi khi gửi dữ liệu
-                console.error('Error!', response);
-                alert('OPPS! Đã xảy ra lỗi');
-            }
-        })
-        .catch(error => {
-            // Xử lý lỗi nếu có
-            console.error('Error!', error.message);
-            alert('OPPS! Đã xảy ra lỗi: ' + error.message);
-        });
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzOjA-XdurCx2Jub39YCD2pYQgBjumJIcMfEAK2k-5aLhyAvgT66L2ckCwB-0SMYpM/exec';
+const form = document.forms['quan-chi'];
+
+form.addEventListener('submit', e => {
+    e.preventDefault(); // Ngừng việc gửi form mặc định
+
+    // Hiển thị thông báo cảm ơn ngay khi nhấn gửi
+    alert('CẢM ƠN BẠN ĐÃ PHẢN HỒI! Dữ liệu gửi về sẽ mất khoảng một vài giây, nhấn "OK" và đợi form tự làm mới lại nhé <3');
+
+    // Gửi dữ liệu form đi
+    fetch(scriptURL, { 
+        method: 'POST', 
+        body: new FormData(form)
+    })
+    .then(response => {
+        if (response.ok) {
+            // Nếu dữ liệu gửi thành công, làm mới lại form
+            form.reset(); // Làm mới lại form
+            alert('Thông tin đã được gửi về dâu/rể!!');
+        } else {
+            // Nếu gặp lỗi khi gửi dữ liệu
+            console.error('Error!', response);
+            alert('OPPS! Đã xảy ra lỗi');
+        }
+    })
+    .catch(error => {
+        // Xử lý lỗi nếu có
+        console.error('Error!', error.message);
+        alert('OPPS! Đã xảy ra lỗi: ' + error.message);
     });
+});
+
     
     </script>
 
